@@ -1,6 +1,7 @@
 
 import { GraphQLServer } from 'graphql-yoga'
 import * as faker from 'faker'
+// import faker from 'faker'
 
 const typeDefs = `
   # this graphql schema
@@ -19,8 +20,8 @@ const resolvers = {
 
 const srvQL = new GraphQLServer({ typeDefs, resolvers })
 
-// srvQL.start(()=> console.log(`Server is running on http://localhost:4000`))
+srvQL.start(({ port })=> console.log(`Server is running on http://localhost:${port}`))
 
-srvQL.start(({
-  port: 4321
-}), ({ port }) => console.log(`Server is running on http://localhost:${port}`))
+// srvQL.start(({
+//   port: 4321
+// }), ({ port }) => console.log(`Server is running on http://localhost:${port}`))

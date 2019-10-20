@@ -4,6 +4,7 @@
   "description": "test for graphql",
   "main": "index.js",
   "scripts": {
+    "start:testgql": "nodemon --exec ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,5 +14,8 @@
     "@types/faker": "^4.1.6",
     "faker": "^4.1.0",
     "graphql-yoga": "^1.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
   }
 }

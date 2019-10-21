@@ -16,25 +16,37 @@ const resolvers = {
     Me: (_: any, { name }) => `Hello ${name || fName}`,
     users: async (_root, { first }, _context) => {
       return await prisma.users({
-        where: {}
-      })
-    }
+        where: {},
+      });
+    },
+    user: async (root, { id }, ctx) => {
+      return await prisma.user({ id });
+    },
   },
 
   Mutation: {
-    async newUser(parent, args, ctx, info) {
-      console.log("args: ", args);
+    async newUser(root, args, ctx, info) {
+      console.info('args: ', args);
 
-      await prisma.createUser({ name: args.name, email: args.email });
+      await prisma.createUser({
+        name: args.name,
+        password: args.password,
+        email: args.email,
+        phone: args.phone,
+      });
     },
+    async deleteUserById(root, args, ctx) {
+      console.log('delete User args: ', args);
 
+      await prisma.deleteUser({ id: args.id });
+    },
   },
-}
+};
 
 const srvQL = new GraphQLServer({ typeDefs, resolvers })
 
 srvQL.start(({ port })=> console.log(`Server is running on http://localhost:${port}`))
 
 // srvQL.start(({
-//   port: 4200
+//   port: 4201
 // }), ({ port }) => console.log(`Server is running on http://localhost:${port}`))

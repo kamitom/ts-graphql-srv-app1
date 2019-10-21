@@ -1,14 +1,20 @@
+# query API
 type Query {
   Me(name: String): String!
   users(first: Int): [User!]!
+  user(id: ID!): User!
 }
 
+# CRUD API
 type Mutation {
-  newUser(name: String!, email: String): User
+  newUser(name: String!, password: String!, email: String, phone: String): User
+  deleteUserById(id: ID!): String
 }
 
 type User {
-  name: String
+  id: ID!
+  name: String!
+  password: String!
   email: String
-  id: ID
+  phone: String
 }

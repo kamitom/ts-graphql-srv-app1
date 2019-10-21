@@ -1,0 +1,12 @@
+type Query {
+  Me(name: String): String!
+  users(first: Int): [User!]!
+}
+
+type Mutation {
+  newUser(name: String!): User
+}
+
+type User {
+  name: String
+}

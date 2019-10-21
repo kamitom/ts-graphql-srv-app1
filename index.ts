@@ -1,20 +1,41 @@
 
 import { GraphQLServer } from 'graphql-yoga'
+import { prisma } from './server/generated/prisma-client'
+
+
 import * as faker from 'faker'
 // import faker from 'faker'
 
-const typeDefs = `
-  # this graphql schema
-  type Query {
-    Me(name: String): String!
-  }
-`
+
+const typeDefs = "./schema.graphql";
 
 let fName: string = faker.name.findName();
 
 const resolvers = {
   Query: {
     Me: (_: any, { name }) => `Hello ${name || fName}`,
+    users: async (_root, { first }, _context) => {
+      return await prisma.users({
+        where: {}
+      })
+    }
+  },
+
+// # Create a new user
+// mutation {
+//   createUser(data: {
+//     name: "Alice"
+//   }) {
+//     id
+//   }
+// }
+
+  Mutation: {
+    async newUser(parent, args, ctx, info) {
+      console.log("args: ", args);
+
+      await prisma.createUser({ name: args.name });
+    }
   },
 }
 

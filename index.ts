@@ -26,7 +26,7 @@ const resolvers = {
 
   Mutation: {
     async newUser(root, args, ctx, info) {
-      console.info('args: ', args);
+      console.info('new user args: ',args);
 
       await prisma.createUser({
         name: args.name,
@@ -36,7 +36,7 @@ const resolvers = {
       });
     },
     async deleteUserById(root, args, ctx) {
-      console.log('delete User args: ', args);
+      console.log('delete User args:', args);
 
       await prisma.deleteUser({ id: args.id });
     },

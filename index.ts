@@ -21,21 +21,13 @@ const resolvers = {
     }
   },
 
-// # Create a new user
-// mutation {
-//   createUser(data: {
-//     name: "Alice"
-//   }) {
-//     id
-//   }
-// }
-
   Mutation: {
     async newUser(parent, args, ctx, info) {
       console.log("args: ", args);
 
-      await prisma.createUser({ name: args.name });
-    }
+      await prisma.createUser({ name: args.name, email: args.email });
+    },
+
   },
 }
 

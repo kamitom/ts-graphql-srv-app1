@@ -23,5 +23,5 @@ const srvQL = new GraphQLServer({ typeDefs, resolvers })
 srvQL.start(({ port })=> console.log(`Server is running on http://localhost:${port}`))
 
 // srvQL.start(({
-//   port: 4321
+//   port: 4200
 // }), ({ port }) => console.log(`Server is running on http://localhost:${port}`))

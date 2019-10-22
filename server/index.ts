@@ -1,6 +1,6 @@
 
 import { GraphQLServer } from 'graphql-yoga'
-import { prisma } from './server/generated/prisma-client'
+import { prisma } from './generated/prisma-client'
 
 import * as faker from 'faker'
 // import faker from 'faker'

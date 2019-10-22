@@ -2,19 +2,34 @@
 type Query {
   Me(name: String): String!
   users(first: Int): [User!]!
-  user(id: ID!): User!
+  user(id: ID!): User
 }
 
 # CRUD API
 type Mutation {
   newUser(name: String!, password: String!, email: String, phone: String): User
   deleteUserById(id: ID!): String
+
+  # todo: not implement yet
+  updateUserById(data: UserUpdateInput, where: UserUpdateInput): String
+}
+
+# subscription
+type Subscription {
+  addNewUserSubscribe: User
 }
 
 type User {
   id: ID!
   name: String!
   password: String!
+  email: String
+  phone: String
+}
+
+input UserUpdateInput {
+  name: String
+  password: String
   email: String
   phone: String
 }

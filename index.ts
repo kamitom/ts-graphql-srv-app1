@@ -2,10 +2,8 @@
 import { GraphQLServer } from 'graphql-yoga'
 import { prisma } from './server/generated/prisma-client'
 
-
 import * as faker from 'faker'
 // import faker from 'faker'
-
 
 const typeDefs = "./schema.graphql";
 
@@ -26,19 +24,46 @@ const resolvers = {
 
   Mutation: {
     async newUser(root, args, ctx, info) {
-      console.info('new user args: ',args);
+      console.info('new user args: ', args);
 
-      await prisma.createUser({
+      return await prisma.createUser({
         name: args.name,
         password: args.password,
         email: args.email,
         phone: args.phone,
       });
+
+      // return `create user ${args.name} successful`;
     },
     async deleteUserById(root, args, ctx) {
       console.log('delete User args:', args);
 
       await prisma.deleteUser({ id: args.id });
+
+      return `delete user id: ${args.id} successful`;
+    },
+    // todo: not implement yet
+    async updateUserById(root, args, cgx) {
+      console.info('update args: ', args);
+
+      await prisma.updateUser(args);
+
+      return `update user go.`;
+    },
+  },
+
+  Subscription: {
+    addNewUserSubscribe: {
+      subscribe: (root, args, ctx) => {
+        return prisma.$subscribe
+          .user({
+            mutation_in: ['CREATED', 'UPDATED', 'DELETED'],
+          })
+          .node();
+      },
+      resolve: payload => {
+        return payload;
+      },
     },
   },
 };

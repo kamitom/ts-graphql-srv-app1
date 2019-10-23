@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 // 解析graphQL 查詢文檔
 import gql from 'graphql-tag';
 // 發起graphQL 查詢請求
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 
 const queryAllUsers = gql`
   query($first:Int) {
@@ -17,10 +17,43 @@ const queryAllUsers = gql`
     }
   }
 `
+const addNewUserMutation = gql`
+  mutation($name:String!,$password:String!,$email:String,$phone:String) {
+    newUser(name: $name, password: $name, email: $email, phone: $phone) {
+      id
+      name
+      email
+    }
+  }
+`
 
-function App() {
 
+
+function App()  {
+  
+  const [name, setName] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState(null);
+  
   const { data, loading, error } = useQuery(queryAllUsers);
+
+
+          const [onCreateUserMutation]  = useMutation(addNewUserMutation, {
+            veriables: {
+              //傳遞給後端的參數
+              name,
+              password,
+              email,
+              phone
+            },
+            update: (proxy, mutationResult) => {
+              console.log("mutation result: ", mutationResult);
+              alert('新增user成功');
+            }
+          });
+  
+  
   
   if (loading) {
     return <div className="App">
@@ -41,28 +74,56 @@ function App() {
     </div>
   }
   
-  console.log(data);
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          前端測試呼叫後端 graphQL API
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  console.log("users data: ", data);
+return <div>
+       前端项目，测试调用graphql API
+       <div>
+         <form>
+           <p>
+             <input 
+               type="text" 
+               placeholder="用户名" 
+               onChange={e=>{
+                 setName(e.target.value);
+               }}
+             />
+           </p>
+           <p>
+             <input 
+               type="password" 
+               placeholder="密码" 
+               onChange={e=>{
+                 setPassword(e.target.value);
+               }}
+             />
+           </p>
+           <p>
+             <input 
+               type="text" 
+               placeholder="邮箱" 
+               onChange={e=>{
+                 setEmail(e.target.value);
+                 
+               }}
+             />
+           </p>
+           <p>
+             <input 
+               type="text" 
+               placeholder="phone" 
+               onChange={e=>{
+                  setPhone(e.target.value);
+               }}
+             />
+           </p>
+         </form>
+         <button onClick={ onCreateUserMutation }>新增用户</button>
+       </div>
+   </div>
+
+
+
 }
+
 
 export default App;

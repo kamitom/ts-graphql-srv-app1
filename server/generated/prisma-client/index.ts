@@ -111,7 +111,9 @@ export type UserOrderByInput =
   | "email_ASC"
   | "email_DESC"
   | "phone_ASC"
-  | "phone_DESC";
+  | "phone_DESC"
+  | "address_ASC"
+  | "address_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -190,6 +192,20 @@ export interface UserWhereInput {
   phone_not_starts_with?: Maybe<String>;
   phone_ends_with?: Maybe<String>;
   phone_not_ends_with?: Maybe<String>;
+  address?: Maybe<String>;
+  address_not?: Maybe<String>;
+  address_in?: Maybe<String[] | String>;
+  address_not_in?: Maybe<String[] | String>;
+  address_lt?: Maybe<String>;
+  address_lte?: Maybe<String>;
+  address_gt?: Maybe<String>;
+  address_gte?: Maybe<String>;
+  address_contains?: Maybe<String>;
+  address_not_contains?: Maybe<String>;
+  address_starts_with?: Maybe<String>;
+  address_not_starts_with?: Maybe<String>;
+  address_ends_with?: Maybe<String>;
+  address_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -201,6 +217,7 @@ export interface UserCreateInput {
   password: String;
   email?: Maybe<String>;
   phone?: Maybe<String>;
+  address?: Maybe<String>;
 }
 
 export interface UserUpdateInput {
@@ -208,6 +225,7 @@ export interface UserUpdateInput {
   password?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
+  address?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -215,6 +233,7 @@ export interface UserUpdateManyMutationInput {
   password?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
+  address?: Maybe<String>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -238,6 +257,7 @@ export interface User {
   password: String;
   email?: String;
   phone?: String;
+  address?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -246,6 +266,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   password: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
+  address: () => Promise<String>;
 }
 
 export interface UserSubscription
@@ -256,6 +277,7 @@ export interface UserSubscription
   password: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
+  address: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserNullablePromise
@@ -266,6 +288,7 @@ export interface UserNullablePromise
   password: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
+  address: () => Promise<String>;
 }
 
 export interface UserConnection {
@@ -392,6 +415,7 @@ export interface UserPreviousValues {
   password: String;
   email?: String;
   phone?: String;
+  address?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -402,6 +426,7 @@ export interface UserPreviousValuesPromise
   password: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
+  address: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -412,6 +437,7 @@ export interface UserPreviousValuesSubscription
   password: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
+  address: () => Promise<AsyncIterator<String>>;
 }
 
 /*

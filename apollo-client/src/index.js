@@ -1,4 +1,3 @@
-
 import ApolloBoost, { gql } from 'apollo-boost';
 
 const client = new ApolloBoost({
@@ -15,7 +14,6 @@ const getUsers = gql`
     }
   }
 `
-
 client.query({
   query: getUsers
 }).then((res) => {

@@ -31,6 +31,7 @@ const resolvers = {
         password: args.password,
         email: args.email,
         phone: args.phone,
+        address: args.address,
       });
 
       // return `create user ${args.name} successful`;

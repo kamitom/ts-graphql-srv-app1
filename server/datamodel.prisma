@@ -4,4 +4,7 @@ type User {
   password: String!
   email: String
   phone: String
+  address: String
 }
+
+

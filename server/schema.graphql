@@ -7,7 +7,7 @@ type Query {
 
 # CRUD API
 type Mutation {
-  newUser(name: String!, password: String!, email: String, phone: String): User
+  newUser(name: String!, password: String!, email: String, phone: String, address: String): User
   deleteUserById(id: ID!): String
 
   # todo: not implement yet
@@ -25,6 +25,7 @@ type User {
   password: String!
   email: String
   phone: String
+  address: String
 }
 
 input UserUpdateInput {

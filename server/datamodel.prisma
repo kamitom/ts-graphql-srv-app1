@@ -7,4 +7,10 @@ type User {
   address: String
 }
 
-
+type Address {
+  id: ID! @id
+  nation: String!
+  city: String!
+  roadNameAndNumber: String
+  user: User!
+}

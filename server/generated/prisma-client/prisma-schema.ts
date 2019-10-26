@@ -2,7 +2,154 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateUser {
+export const typeDefs = /* GraphQL */ `type Address {
+  id: ID!
+  nation: String!
+  city: String!
+  roadNameAndNumber: String
+  user: User!
+}
+
+type AddressConnection {
+  pageInfo: PageInfo!
+  edges: [AddressEdge]!
+  aggregate: AggregateAddress!
+}
+
+input AddressCreateInput {
+  id: ID
+  nation: String!
+  city: String!
+  roadNameAndNumber: String
+  user: UserCreateOneInput!
+}
+
+type AddressEdge {
+  node: Address!
+  cursor: String!
+}
+
+enum AddressOrderByInput {
+  id_ASC
+  id_DESC
+  nation_ASC
+  nation_DESC
+  city_ASC
+  city_DESC
+  roadNameAndNumber_ASC
+  roadNameAndNumber_DESC
+}
+
+type AddressPreviousValues {
+  id: ID!
+  nation: String!
+  city: String!
+  roadNameAndNumber: String
+}
+
+type AddressSubscriptionPayload {
+  mutation: MutationType!
+  node: Address
+  updatedFields: [String!]
+  previousValues: AddressPreviousValues
+}
+
+input AddressSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: AddressWhereInput
+  AND: [AddressSubscriptionWhereInput!]
+  OR: [AddressSubscriptionWhereInput!]
+  NOT: [AddressSubscriptionWhereInput!]
+}
+
+input AddressUpdateInput {
+  nation: String
+  city: String
+  roadNameAndNumber: String
+  user: UserUpdateOneRequiredInput
+}
+
+input AddressUpdateManyMutationInput {
+  nation: String
+  city: String
+  roadNameAndNumber: String
+}
+
+input AddressWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  nation: String
+  nation_not: String
+  nation_in: [String!]
+  nation_not_in: [String!]
+  nation_lt: String
+  nation_lte: String
+  nation_gt: String
+  nation_gte: String
+  nation_contains: String
+  nation_not_contains: String
+  nation_starts_with: String
+  nation_not_starts_with: String
+  nation_ends_with: String
+  nation_not_ends_with: String
+  city: String
+  city_not: String
+  city_in: [String!]
+  city_not_in: [String!]
+  city_lt: String
+  city_lte: String
+  city_gt: String
+  city_gte: String
+  city_contains: String
+  city_not_contains: String
+  city_starts_with: String
+  city_not_starts_with: String
+  city_ends_with: String
+  city_not_ends_with: String
+  roadNameAndNumber: String
+  roadNameAndNumber_not: String
+  roadNameAndNumber_in: [String!]
+  roadNameAndNumber_not_in: [String!]
+  roadNameAndNumber_lt: String
+  roadNameAndNumber_lte: String
+  roadNameAndNumber_gt: String
+  roadNameAndNumber_gte: String
+  roadNameAndNumber_contains: String
+  roadNameAndNumber_not_contains: String
+  roadNameAndNumber_starts_with: String
+  roadNameAndNumber_not_starts_with: String
+  roadNameAndNumber_ends_with: String
+  roadNameAndNumber_not_ends_with: String
+  user: UserWhereInput
+  AND: [AddressWhereInput!]
+  OR: [AddressWhereInput!]
+  NOT: [AddressWhereInput!]
+}
+
+input AddressWhereUniqueInput {
+  id: ID
+}
+
+type AggregateAddress {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -13,6 +160,12 @@ type BatchPayload {
 scalar Long
 
 type Mutation {
+  createAddress(data: AddressCreateInput!): Address!
+  updateAddress(data: AddressUpdateInput!, where: AddressWhereUniqueInput!): Address
+  updateManyAddresses(data: AddressUpdateManyMutationInput!, where: AddressWhereInput): BatchPayload!
+  upsertAddress(where: AddressWhereUniqueInput!, create: AddressCreateInput!, update: AddressUpdateInput!): Address!
+  deleteAddress(where: AddressWhereUniqueInput!): Address
+  deleteManyAddresses(where: AddressWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -39,6 +192,9 @@ type PageInfo {
 }
 
 type Query {
+  address(where: AddressWhereUniqueInput!): Address
+  addresses(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Address]!
+  addressesConnection(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AddressConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -46,6 +202,7 @@ type Query {
 }
 
 type Subscription {
+  address(where: AddressSubscriptionWhereInput): AddressSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -71,6 +228,11 @@ input UserCreateInput {
   email: String
   phone: String
   address: String
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type UserEdge {
@@ -120,6 +282,14 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  name: String
+  password: String
+  email: String
+  phone: String
+  address: String
+}
+
 input UserUpdateInput {
   name: String
   password: String
@@ -134,6 +304,18 @@ input UserUpdateManyMutationInput {
   email: String
   phone: String
   address: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {

@@ -160,9 +160,7 @@ export type UserOrderByInput =
   | "email_ASC"
   | "email_DESC"
   | "phone_ASC"
-  | "phone_DESC"
-  | "address_ASC"
-  | "address_DESC";
+  | "phone_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -304,20 +302,7 @@ export interface UserWhereInput {
   phone_not_starts_with?: Maybe<String>;
   phone_ends_with?: Maybe<String>;
   phone_not_ends_with?: Maybe<String>;
-  address?: Maybe<String>;
-  address_not?: Maybe<String>;
-  address_in?: Maybe<String[] | String>;
-  address_not_in?: Maybe<String[] | String>;
-  address_lt?: Maybe<String>;
-  address_lte?: Maybe<String>;
-  address_gt?: Maybe<String>;
-  address_gte?: Maybe<String>;
-  address_contains?: Maybe<String>;
-  address_not_contains?: Maybe<String>;
-  address_starts_with?: Maybe<String>;
-  address_not_starts_with?: Maybe<String>;
-  address_ends_with?: Maybe<String>;
-  address_not_ends_with?: Maybe<String>;
+  address?: Maybe<AddressWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -332,48 +317,46 @@ export interface AddressCreateInput {
   nation: String;
   city: String;
   roadNameAndNumber?: Maybe<String>;
-  user: UserCreateOneInput;
+  user: UserCreateOneWithoutAddressInput;
 }
 
-export interface UserCreateOneInput {
-  create?: Maybe<UserCreateInput>;
+export interface UserCreateOneWithoutAddressInput {
+  create?: Maybe<UserCreateWithoutAddressInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserCreateInput {
+export interface UserCreateWithoutAddressInput {
   id?: Maybe<ID_Input>;
   name: String;
   password: String;
   email?: Maybe<String>;
   phone?: Maybe<String>;
-  address?: Maybe<String>;
 }
 
 export interface AddressUpdateInput {
   nation?: Maybe<String>;
   city?: Maybe<String>;
   roadNameAndNumber?: Maybe<String>;
-  user?: Maybe<UserUpdateOneRequiredInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutAddressInput>;
 }
 
-export interface UserUpdateOneRequiredInput {
-  create?: Maybe<UserCreateInput>;
-  update?: Maybe<UserUpdateDataInput>;
-  upsert?: Maybe<UserUpsertNestedInput>;
+export interface UserUpdateOneRequiredWithoutAddressInput {
+  create?: Maybe<UserCreateWithoutAddressInput>;
+  update?: Maybe<UserUpdateWithoutAddressDataInput>;
+  upsert?: Maybe<UserUpsertWithoutAddressInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserUpdateDataInput {
+export interface UserUpdateWithoutAddressDataInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
-  address?: Maybe<String>;
 }
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+export interface UserUpsertWithoutAddressInput {
+  update: UserUpdateWithoutAddressDataInput;
+  create: UserCreateWithoutAddressInput;
 }
 
 export interface AddressUpdateManyMutationInput {
@@ -382,12 +365,53 @@ export interface AddressUpdateManyMutationInput {
   roadNameAndNumber?: Maybe<String>;
 }
 
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  password: String;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+  address?: Maybe<AddressCreateOneWithoutUserInput>;
+}
+
+export interface AddressCreateOneWithoutUserInput {
+  create?: Maybe<AddressCreateWithoutUserInput>;
+  connect?: Maybe<AddressWhereUniqueInput>;
+}
+
+export interface AddressCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  nation: String;
+  city: String;
+  roadNameAndNumber?: Maybe<String>;
+}
+
 export interface UserUpdateInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
-  address?: Maybe<String>;
+  address?: Maybe<AddressUpdateOneWithoutUserInput>;
+}
+
+export interface AddressUpdateOneWithoutUserInput {
+  create?: Maybe<AddressCreateWithoutUserInput>;
+  update?: Maybe<AddressUpdateWithoutUserDataInput>;
+  upsert?: Maybe<AddressUpsertWithoutUserInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<AddressWhereUniqueInput>;
+}
+
+export interface AddressUpdateWithoutUserDataInput {
+  nation?: Maybe<String>;
+  city?: Maybe<String>;
+  roadNameAndNumber?: Maybe<String>;
+}
+
+export interface AddressUpsertWithoutUserInput {
+  update: AddressUpdateWithoutUserDataInput;
+  create: AddressCreateWithoutUserInput;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -395,7 +419,6 @@ export interface UserUpdateManyMutationInput {
   password?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
-  address?: Maybe<String>;
 }
 
 export interface AddressSubscriptionWhereInput {
@@ -465,7 +488,6 @@ export interface User {
   password: String;
   email?: String;
   phone?: String;
-  address?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -474,7 +496,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   password: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
-  address: () => Promise<String>;
+  address: <T = AddressPromise>() => T;
 }
 
 export interface UserSubscription
@@ -485,7 +507,7 @@ export interface UserSubscription
   password: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
-  address: () => Promise<AsyncIterator<String>>;
+  address: <T = AddressSubscription>() => T;
 }
 
 export interface UserNullablePromise
@@ -496,7 +518,7 @@ export interface UserNullablePromise
   password: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
-  address: () => Promise<String>;
+  address: <T = AddressPromise>() => T;
 }
 
 export interface AddressConnection {
@@ -727,7 +749,6 @@ export interface UserPreviousValues {
   password: String;
   email?: String;
   phone?: String;
-  address?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -738,7 +759,6 @@ export interface UserPreviousValuesPromise
   password: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
-  address: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -749,7 +769,6 @@ export interface UserPreviousValuesSubscription
   password: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
-  address: () => Promise<AsyncIterator<String>>;
 }
 
 /*

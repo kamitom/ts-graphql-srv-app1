@@ -4,7 +4,7 @@ type User {
   password: String!
   email: String
   phone: String
-  address: String
+  address: Address @relation(link: INLINE)
 }
 
 type Address {

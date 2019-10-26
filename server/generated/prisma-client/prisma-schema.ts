@@ -21,7 +21,19 @@ input AddressCreateInput {
   nation: String!
   city: String!
   roadNameAndNumber: String
-  user: UserCreateOneInput!
+  user: UserCreateOneWithoutAddressInput!
+}
+
+input AddressCreateOneWithoutUserInput {
+  create: AddressCreateWithoutUserInput
+  connect: AddressWhereUniqueInput
+}
+
+input AddressCreateWithoutUserInput {
+  id: ID
+  nation: String!
+  city: String!
+  roadNameAndNumber: String
 }
 
 type AddressEdge {
@@ -69,13 +81,33 @@ input AddressUpdateInput {
   nation: String
   city: String
   roadNameAndNumber: String
-  user: UserUpdateOneRequiredInput
+  user: UserUpdateOneRequiredWithoutAddressInput
 }
 
 input AddressUpdateManyMutationInput {
   nation: String
   city: String
   roadNameAndNumber: String
+}
+
+input AddressUpdateOneWithoutUserInput {
+  create: AddressCreateWithoutUserInput
+  update: AddressUpdateWithoutUserDataInput
+  upsert: AddressUpsertWithoutUserInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: AddressWhereUniqueInput
+}
+
+input AddressUpdateWithoutUserDataInput {
+  nation: String
+  city: String
+  roadNameAndNumber: String
+}
+
+input AddressUpsertWithoutUserInput {
+  update: AddressUpdateWithoutUserDataInput!
+  create: AddressCreateWithoutUserInput!
 }
 
 input AddressWhereInput {
@@ -212,7 +244,7 @@ type User {
   password: String!
   email: String
   phone: String
-  address: String
+  address: Address
 }
 
 type UserConnection {
@@ -227,12 +259,20 @@ input UserCreateInput {
   password: String!
   email: String
   phone: String
-  address: String
+  address: AddressCreateOneWithoutUserInput
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutAddressInput {
+  create: UserCreateWithoutAddressInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutAddressInput {
+  id: ID
+  name: String!
+  password: String!
+  email: String
+  phone: String
 }
 
 type UserEdge {
@@ -251,8 +291,6 @@ enum UserOrderByInput {
   email_DESC
   phone_ASC
   phone_DESC
-  address_ASC
-  address_DESC
 }
 
 type UserPreviousValues {
@@ -261,7 +299,6 @@ type UserPreviousValues {
   password: String!
   email: String
   phone: String
-  address: String
 }
 
 type UserSubscriptionPayload {
@@ -282,20 +319,12 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  name: String
-  password: String
-  email: String
-  phone: String
-  address: String
-}
-
 input UserUpdateInput {
   name: String
   password: String
   email: String
   phone: String
-  address: String
+  address: AddressUpdateOneWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -303,19 +332,25 @@ input UserUpdateManyMutationInput {
   password: String
   email: String
   phone: String
-  address: String
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+input UserUpdateOneRequiredWithoutAddressInput {
+  create: UserCreateWithoutAddressInput
+  update: UserUpdateWithoutAddressDataInput
+  upsert: UserUpsertWithoutAddressInput
   connect: UserWhereUniqueInput
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+input UserUpdateWithoutAddressDataInput {
+  name: String
+  password: String
+  email: String
+  phone: String
+}
+
+input UserUpsertWithoutAddressInput {
+  update: UserUpdateWithoutAddressDataInput!
+  create: UserCreateWithoutAddressInput!
 }
 
 input UserWhereInput {
@@ -389,20 +424,7 @@ input UserWhereInput {
   phone_not_starts_with: String
   phone_ends_with: String
   phone_not_ends_with: String
-  address: String
-  address_not: String
-  address_in: [String!]
-  address_not_in: [String!]
-  address_lt: String
-  address_lte: String
-  address_gt: String
-  address_gte: String
-  address_contains: String
-  address_not_contains: String
-  address_starts_with: String
-  address_not_starts_with: String
-  address_ends_with: String
-  address_not_ends_with: String
+  address: AddressWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
